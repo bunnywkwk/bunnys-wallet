@@ -162,8 +162,8 @@ export const CalculatorInput: React.FC<CalculatorInputProps> = ({
 
   return (
     <section className="bg-[#141414] border border-[#222] rounded-3xl p-6 shadow-2xl space-y-5">
-      {/* Section Header & Type Switcher */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      {/* Section Header */}
+      <div className="space-y-3">
         <div className="flex items-center gap-2">
           <div className="p-2 rounded-xl bg-[#1a1a1a] text-[#c5a059] border border-[#c5a059]/30">
             <CalcIcon size={18} />
@@ -174,15 +174,15 @@ export const CalculatorInput: React.FC<CalculatorInputProps> = ({
           </div>
         </div>
 
-        {/* Expense vs Income vs Transfer Segmented Buttons */}
-        <div className="flex bg-[#0a0a0a] p-1 rounded-full border border-[#222]">
+        {/* Full-Width Expense vs Income vs Transfer Segmented Buttons */}
+        <div className="grid grid-cols-3 bg-[#0a0a0a] p-1 rounded-2xl border border-[#222] text-center w-full">
           <button
             type="button"
             onClick={() => setType('expense')}
-            className={`text-[10px] uppercase tracking-widest px-4 py-1.5 rounded-full transition-all ${
+            className={`text-[10px] uppercase tracking-widest py-2 rounded-xl transition-all font-semibold cursor-pointer ${
               type === 'expense'
                 ? 'border border-[#c5a059] text-[#c5a059] bg-[#c5a059]/10 shadow-[0_0_10px_rgba(197,160,89,0.1)] font-bold'
-                : 'border border-transparent text-[#555] hover:text-[#888]'
+                : 'border border-transparent text-[#666] hover:text-[#888]'
             }`}
           >
             Expense
@@ -190,10 +190,10 @@ export const CalculatorInput: React.FC<CalculatorInputProps> = ({
           <button
             type="button"
             onClick={() => setType('income')}
-            className={`text-[10px] uppercase tracking-widest px-4 py-1.5 rounded-full transition-all ${
+            className={`text-[10px] uppercase tracking-widest py-2 rounded-xl transition-all font-semibold cursor-pointer ${
               type === 'income'
                 ? 'border border-[#c5a059] text-[#c5a059] bg-[#c5a059]/10 shadow-[0_0_10px_rgba(197,160,89,0.1)] font-bold'
-                : 'border border-transparent text-[#555] hover:text-[#888]'
+                : 'border border-transparent text-[#666] hover:text-[#888]'
             }`}
           >
             Income
@@ -201,10 +201,10 @@ export const CalculatorInput: React.FC<CalculatorInputProps> = ({
           <button
             type="button"
             onClick={() => setType('transfer')}
-            className={`text-[10px] uppercase tracking-widest px-4 py-1.5 rounded-full transition-all ${
+            className={`text-[10px] uppercase tracking-widest py-2 rounded-xl transition-all font-semibold cursor-pointer ${
               type === 'transfer'
                 ? 'border border-[#c5a059] text-[#c5a059] bg-[#c5a059]/10 shadow-[0_0_10px_rgba(197,160,89,0.1)] font-bold'
-                : 'border border-transparent text-[#555] hover:text-[#888]'
+                : 'border border-transparent text-[#666] hover:text-[#888]'
             }`}
           >
             Transfer

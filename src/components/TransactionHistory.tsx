@@ -98,24 +98,24 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
       </div>
 
       {/* Search & Type Filter Tabs */}
-      <div className="flex flex-col sm:flex-row items-center gap-3">
-        <div className="relative w-full sm:w-64">
-          <Search size={14} className="absolute left-3 top-3 text-[#555]" />
+      <div className="flex flex-col md:flex-row items-stretch gap-3">
+        <div className="relative flex-1 w-full">
+          <Search size={15} className="absolute left-3.5 top-3 text-[#666]" />
           <input
             type="text"
             placeholder="Search items, notes, categories..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 rounded-xl bg-[#0a0a0a] border border-[#222] text-xs text-[#f2f2f2] placeholder-[#555] focus:border-[#c5a059] focus:outline-none"
+            className="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-[#0a0a0a] border border-[#222] text-xs text-[#f2f2f2] placeholder-[#555] focus:border-[#c5a059] focus:outline-none transition-all shadow-inner"
           />
         </div>
 
-        <div className="flex bg-[#0a0a0a] p-1 rounded-full border border-[#222] w-full sm:w-auto">
+        <div className="grid grid-cols-4 bg-[#0a0a0a] p-1 rounded-2xl border border-[#222] text-center w-full md:w-auto md:min-w-[280px]">
           {(['all', 'expense', 'income', 'transfer'] as const).map((t) => (
             <button
               key={t}
               onClick={() => setTypeFilter(t)}
-              className={`flex-1 sm:flex-none px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-medium transition-colors ${
+              className={`py-1.5 rounded-xl text-[10px] uppercase tracking-widest font-semibold transition-all cursor-pointer ${
                 typeFilter === t ? 'bg-[#c5a059]/20 text-[#c5a059] border border-[#c5a059]/30 font-bold' : 'text-[#666] hover:text-[#888]'
               }`}
             >

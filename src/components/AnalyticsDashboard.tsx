@@ -210,7 +210,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({
       </div>
 
       {/* Category Breakdown & Budget Limits */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div className="flex flex-col gap-5 xl:grid xl:grid-cols-2">
         {/* Donut Chart */}
         <div className="p-4 sm:p-5 rounded-2xl bg-[#141414] border border-[#222] space-y-3">
           <h3 className="text-[10px] font-bold text-[#666] uppercase tracking-[0.2em] flex items-center gap-1.5">

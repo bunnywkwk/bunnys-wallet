@@ -96,7 +96,7 @@ export const TheVault: React.FC<TheVaultProps> = ({
       </div>
 
       {/* Account Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div className="flex flex-col gap-3.5 sm:grid sm:grid-cols-2 lg:grid-cols-3">
         {accounts.map((acc) => {
           const isSelected = selectedAccountId === acc.id;
 
