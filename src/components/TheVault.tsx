@@ -103,7 +103,7 @@ export const TheVault: React.FC<TheVaultProps> = ({
           return (
             <div
               key={acc.id}
-              className={`p-4 rounded-xl border transition-all relative overflow-hidden flex flex-col justify-between ${
+              className={`p-4 rounded-2xl border transition-all relative overflow-hidden flex flex-col justify-between ${
                 isSelected
                   ? 'bg-[#141414] border-[#c5a059] ring-1 ring-[#c5a059]/40 shadow-[0_0_15px_rgba(197,160,89,0.1)]'
                   : 'bg-[#141414] border-[#222] hover:border-[#333]'
@@ -111,23 +111,23 @@ export const TheVault: React.FC<TheVaultProps> = ({
             >
               {/* Account Header */}
               <div className="flex items-start justify-between">
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-2.5 min-w-0">
                   <div
-                    className="w-9 h-9 rounded-xl flex items-center justify-center border border-[#222]"
+                    className="w-9 h-9 rounded-xl flex items-center justify-center border border-[#222] shrink-0"
                     style={{ backgroundColor: `${acc.color}15`, color: acc.color || '#c5a059' }}
                   >
                     <IconRenderer name={acc.iconName || 'Wallet'} size={18} color={acc.color || '#c5a059'} />
                   </div>
-                  <div>
-                    <h3 className="text-xs font-medium text-[#f2f2f2] flex items-center gap-1.5">
-                      {acc.name}
+                  <div className="min-w-0">
+                    <h3 className="text-xs font-medium text-[#f2f2f2] flex items-center gap-1.5 truncate">
+                      <span className="truncate">{acc.name}</span>
                       {acc.isDefault && (
-                        <span className="text-[9px] px-1.5 py-0.2 rounded bg-[#222] text-[#888] font-normal uppercase tracking-wider">
+                        <span className="text-[9px] px-1.5 py-0.2 rounded bg-[#222] text-[#888] font-normal uppercase tracking-wider shrink-0">
                           Primary
                         </span>
                       )}
                     </h3>
-                    <span className="text-[10px] text-[#666] uppercase tracking-wider font-medium">
+                    <span className="text-[10px] text-[#666] uppercase tracking-wider font-medium block">
                       {acc.type}
                     </span>
                   </div>
@@ -136,7 +136,7 @@ export const TheVault: React.FC<TheVaultProps> = ({
                 {onSelectAccountFilter && (
                   <button
                     onClick={() => onSelectAccountFilter(isSelected ? '' : acc.id)}
-                    className={`text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-lg border transition-colors ${
+                    className={`text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-lg border transition-colors shrink-0 ml-1 ${
                       isSelected
                         ? 'bg-[#c5a059]/20 border-[#c5a059]/50 text-[#c5a059]'
                         : 'bg-[#1a1a1a] border-[#222] text-[#666] hover:text-[#888]'
@@ -157,7 +157,7 @@ export const TheVault: React.FC<TheVaultProps> = ({
 
               {/* Starting Balance Row with Inline Edit */}
               <div className="mt-2 pt-2 border-t border-[#1a1a1a] flex items-center justify-between text-[11px]">
-                <span className="text-[#666]">Starting:</span>
+                <span className="text-[#666]">Starting Amount:</span>
                 {editingAccId === acc.id ? (
                   <div className="flex items-center gap-1">
                     <input
@@ -175,16 +175,16 @@ export const TheVault: React.FC<TheVaultProps> = ({
                     </button>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1.5">
                     <span className="font-mono text-[#888]">
                       {privacyMode ? '••••' : formatCurrency(acc.initialBalance, currency)}
                     </span>
                     <button
                       onClick={() => startEditing(acc)}
-                      className="text-[#555] hover:text-[#c5a059] transition-colors"
+                      className="p-1 rounded bg-[#1e1e1e] border border-[#333] text-[#888] hover:text-[#c5a059] transition-colors"
                       title="Edit starting balance"
                     >
-                      <Edit2 size={12} />
+                      <Edit2 size={11} />
                     </button>
                   </div>
                 )}

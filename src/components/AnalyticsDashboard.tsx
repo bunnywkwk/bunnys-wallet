@@ -210,9 +210,9 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({
       </div>
 
       {/* Category Breakdown & Budget Limits */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Donut Chart */}
-        <div className="p-5 rounded-2xl bg-[#141414] border border-[#222] space-y-3">
+        <div className="p-4 sm:p-5 rounded-2xl bg-[#141414] border border-[#222] space-y-3">
           <h3 className="text-[10px] font-bold text-[#666] uppercase tracking-[0.2em] flex items-center gap-1.5">
             <PieChartIcon size={14} className="text-[#c5a059]" />
             <span>Expense Distribution</span>
@@ -267,13 +267,13 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({
         </div>
 
         {/* Budget Limits Tracker */}
-        <div className="p-5 rounded-2xl bg-[#141414] border border-[#222] space-y-3">
+        <div className="p-4 sm:p-5 rounded-2xl bg-[#141414] border border-[#222] space-y-3">
           <h3 className="text-[10px] font-bold text-[#666] uppercase tracking-[0.2em] flex items-center gap-1.5">
             <AlertCircle size={14} className="text-[#c5a059]" />
             <span>Monthly Category Budgets</span>
           </h3>
 
-          <div className="space-y-3 max-h-48 overflow-y-auto pr-1 text-xs">
+          <div className="space-y-2.5 max-h-64 overflow-y-auto pr-1 text-xs">
             {categories
               .filter((c) => c.type === 'expense' && c.budgetLimit && c.budgetLimit > 0)
               .map((cat) => {
@@ -284,17 +284,17 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({
 
                 return (
                   <div key={cat.id} className="p-3 rounded-xl bg-[#181818] border border-[#222] space-y-2">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
+                    <div className="flex items-center justify-between flex-wrap gap-1">
+                      <div className="flex items-center gap-2 min-w-0">
                         <IconRenderer name={cat.iconName} size={14} color={cat.color || '#c5a059'} />
-                        <span className="font-medium text-[#f2f2f2]">{cat.name}</span>
+                        <span className="font-medium text-[#f2f2f2] truncate">{cat.name}</span>
                       </div>
-                      <span className="text-[11px] text-[#888] font-mono">
+                      <span className="text-[11px] text-[#888] font-mono shrink-0">
                         {privacyMode ? '••' : formatCurrency(spent, currency)} / {formatCurrency(limit, currency)}
                       </span>
                     </div>
 
-                    <div className="w-full bg-[#222] h-1 rounded-full overflow-hidden">
+                    <div className="w-full bg-[#222] h-1.5 rounded-full overflow-hidden">
                       <div
                         className={`h-full transition-all rounded-full ${
                           isOver ? 'bg-rose-500' : 'bg-[#c5a059]'

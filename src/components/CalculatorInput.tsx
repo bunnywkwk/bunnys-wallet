@@ -266,7 +266,7 @@ export const CalculatorInput: React.FC<CalculatorInputProps> = ({
         {/* Itemization Name & Account Selector */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="block text-[10px] uppercase tracking-widest text-[#555] mb-1">
+            <label className="block text-[10px] uppercase tracking-widest text-[#555] mb-1 font-semibold">
               Description
             </label>
             <input
@@ -279,14 +279,14 @@ export const CalculatorInput: React.FC<CalculatorInputProps> = ({
           </div>
 
           <div>
-            <label className="block text-[10px] uppercase tracking-widest text-[#555] mb-1 flex items-center gap-1">
+            <label className="block text-[10px] uppercase tracking-widest text-[#555] mb-1 font-semibold flex items-center gap-1">
               <Wallet size={11} className="text-[#c5a059]" />
               <span>{type === 'transfer' ? 'From Wallet' : 'Wallet Account'}</span>
             </label>
             <select
               value={selectedAccountId}
               onChange={(e) => setSelectedAccountId(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-[#0a0a0a] border border-[#222] text-xs text-[#f2f2f2] focus:border-[#c5a059] focus:outline-none cursor-pointer"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-[#0a0a0a] border border-[#222] text-xs text-[#f2f2f2] focus:border-[#c5a059] focus:outline-none cursor-pointer truncate"
             >
               {accounts.map((acc) => (
                 <option key={acc.id} value={acc.id} className="bg-[#141414]">
@@ -300,14 +300,14 @@ export const CalculatorInput: React.FC<CalculatorInputProps> = ({
         {/* Transfer Destination Account Selector if Transfer mode */}
         {type === 'transfer' && (
           <div>
-            <label className="block text-[10px] uppercase tracking-widest text-[#555] mb-1 flex items-center gap-1">
+            <label className="block text-[10px] uppercase tracking-widest text-[#555] mb-1 font-semibold flex items-center gap-1">
               <ArrowRightLeft size={11} className="text-[#c5a059]" />
               <span>To Wallet</span>
             </label>
             <select
               value={selectedTargetAccountId}
               onChange={(e) => setSelectedTargetAccountId(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-[#0a0a0a] border border-[#222] text-xs text-[#f2f2f2] focus:border-[#c5a059] focus:outline-none cursor-pointer"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-[#0a0a0a] border border-[#222] text-xs text-[#f2f2f2] focus:border-[#c5a059] focus:outline-none cursor-pointer truncate"
             >
               {accounts.map((acc) => (
                 <option key={acc.id} value={acc.id} disabled={acc.id === selectedAccountId} className="bg-[#141414]">
@@ -321,8 +321,8 @@ export const CalculatorInput: React.FC<CalculatorInputProps> = ({
         {/* Dynamic Category Selector Grid */}
         {type !== 'transfer' && (
           <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <label className="text-[10px] uppercase tracking-widest text-[#555] flex items-center gap-1">
+            <div className="flex items-center justify-between flex-wrap gap-1">
+              <label className="text-[10px] uppercase tracking-widest text-[#555] font-semibold flex items-center gap-1">
                 <Tag size={11} className="text-[#c5a059]" />
                 <span>Category</span>
               </label>
@@ -340,7 +340,7 @@ export const CalculatorInput: React.FC<CalculatorInputProps> = ({
             <select
               value={selectedCategoryId}
               onChange={(e) => setSelectedCategoryId(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-[#0a0a0a] border border-[#222] text-xs text-[#f2f2f2] focus:border-[#c5a059] focus:outline-none cursor-pointer"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-[#0a0a0a] border border-[#222] text-xs text-[#f2f2f2] focus:border-[#c5a059] focus:outline-none cursor-pointer truncate"
             >
               {availableCategories.map((cat) => (
                 <option key={cat.id} value={cat.id} className="bg-[#141414]">
@@ -377,7 +377,7 @@ export const CalculatorInput: React.FC<CalculatorInputProps> = ({
         {/* Timestamp & Notes */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="block text-[10px] uppercase tracking-widest text-[#555] mb-1 flex items-center gap-1">
+            <label className="block text-[10px] uppercase tracking-widest text-[#555] mb-1 font-semibold flex items-center gap-1">
               <Calendar size={11} />
               <span>Timestamp</span>
             </label>
@@ -385,32 +385,34 @@ export const CalculatorInput: React.FC<CalculatorInputProps> = ({
               type="datetime-local"
               value={timestamp}
               onChange={(e) => setTimestamp(e.target.value)}
-              className="w-full px-3.5 py-2 rounded-xl bg-[#0a0a0a] border border-[#222] text-xs text-[#f2f2f2] focus:border-[#c5a059] focus:outline-none"
+              className="w-full px-3 py-2.5 rounded-xl bg-[#0a0a0a] border border-[#222] text-xs text-[#f2f2f2] focus:border-[#c5a059] focus:outline-none"
             />
           </div>
 
           <div>
-            <label className="block text-[10px] uppercase tracking-widest text-[#555] mb-1">Note</label>
+            <label className="block text-[10px] uppercase tracking-widest text-[#555] mb-1 font-semibold">Note</label>
             <input
               type="text"
               placeholder="Receipt #, optional note"
               value={note}
               onChange={(e) => setNote(e.target.value)}
-              className="w-full px-3.5 py-2 rounded-xl bg-[#0a0a0a] border border-[#222] text-xs text-[#f2f2f2] placeholder-[#555] focus:border-[#c5a059] focus:outline-none"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-[#0a0a0a] border border-[#222] text-xs text-[#f2f2f2] placeholder-[#555] focus:border-[#c5a059] focus:outline-none"
             />
           </div>
         </div>
 
         {/* Submit Primary Button */}
-        <button
-          type="submit"
-          className="w-full bg-[#c5a059] text-black font-bold text-xs uppercase tracking-[0.2em] py-4 rounded-xl shadow-[0_8px_20px_rgba(197,160,89,0.2)] hover:bg-[#d8b068] transition-all flex items-center justify-center gap-2 cursor-pointer"
-        >
-          <PlusCircle size={16} />
-          <span>
-            Record {type === 'expense' ? 'Expense' : type === 'income' ? 'Income' : 'Transfer'}
-          </span>
-        </button>
+        <div className="pt-2 pb-6">
+          <button
+            type="submit"
+            className="w-full bg-[#c5a059] text-black font-bold text-xs uppercase tracking-[0.2em] py-4 rounded-xl shadow-[0_8px_20px_rgba(197,160,89,0.2)] hover:bg-[#d8b068] transition-all flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <PlusCircle size={16} />
+            <span>
+              Record {type === 'expense' ? 'Expense' : type === 'income' ? 'Income' : 'Transfer'}
+            </span>
+          </button>
+        </div>
 
         {showSuccessToast && (
           <div className="p-3 rounded-xl bg-[#c5a059]/10 border border-[#c5a059]/30 text-[#c5a059] text-xs font-medium flex items-center justify-center gap-2 animate-in fade-in duration-200 font-mono">

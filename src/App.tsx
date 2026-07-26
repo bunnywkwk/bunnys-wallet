@@ -121,14 +121,14 @@ export default function App() {
       )}
 
       {/* Main Container */}
-      <main className={isMobileActive ? 'w-full min-h-screen bg-[#0a0a0a] pb-24' : 'py-6 px-2 sm:px-6 max-w-7xl mx-auto'}>
+      <main className={isMobileActive ? 'w-full min-h-screen bg-[#0a0a0a] pb-36' : 'py-6 px-2 sm:px-6 max-w-7xl mx-auto'}>
         {isMobileActive ? (
           /* Mobile View Container */
           <div
             className={
               isRealMobile
-                ? 'w-full min-h-screen bg-[#0a0a0a] px-3 pt-2 pb-24 space-y-4'
-                : 'max-w-md mx-auto my-2 rounded-[36px] border-[8px] border-[#1f1f1f] bg-[#141414] p-4 shadow-2xl space-y-4 relative'
+                ? 'w-full min-h-screen bg-[#0a0a0a] px-3 pt-2 pb-36 space-y-4'
+                : 'max-w-md mx-auto my-2 rounded-[36px] border-[8px] border-[#1f1f1f] bg-[#141414] p-4 shadow-2xl space-y-4 relative pb-28'
             }
           >
             {/* Phone Speaker Notch (Desktop Simulator Only) */}
