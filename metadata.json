@@ -1,0 +1,6 @@
+{
+  "name": "Bunny's Wallet",
+  "description": "Offline-first personal wallet, calculator transaction logger, account balance manager, and financial analytics dashboard in PHP.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

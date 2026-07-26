@@ -1,0 +1,9 @@
+{
+  "appId": "com.bunnyswallet.app",
+  "appName": "Bunny's Wallet",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  }
+}
