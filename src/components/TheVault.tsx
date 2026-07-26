@@ -50,31 +50,32 @@ export const TheVault: React.FC<TheVaultProps> = ({
   return (
     <section className="bg-[#111] border border-[#222] rounded-3xl p-6 shadow-2xl space-y-5">
       {/* Section Header */}
-      <div className="flex items-center justify-between border-b border-[#222] pb-3">
+      <div className="space-y-3 pb-3 border-b border-[#222]">
         <div className="flex items-center gap-2.5">
           <div className="p-2 rounded-xl bg-[#141414] text-[#c5a059] border border-[#c5a059]/30">
             <ShieldCheck size={18} />
           </div>
           <div>
-            <h2 className="text-sm uppercase tracking-widest text-[#888] font-bold">Accounts</h2>
-            <p className="text-[10px] text-[#555] uppercase tracking-wider">Balances, starting amounts & wallets</p>
+            <h2 className="text-sm font-serif text-[#f2f2f2] font-semibold">Accounts Vault</h2>
+            <p className="text-[10px] text-[#555] uppercase tracking-widest">Balances, starting amounts & wallets</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        {/* Full-width 2-column Transfer & Add Account buttons underneath label (Uniform with Calc section) */}
+        <div className="grid grid-cols-2 gap-2.5 w-full">
           <button
             onClick={onOpenTransfer}
-            className="px-3 py-1.5 rounded-xl bg-[#141414] border border-[#333] hover:border-[#c5a059]/40 text-[#888] hover:text-[#c5a059] text-xs font-medium transition-colors flex items-center gap-1.5"
+            className="w-full py-2 px-3 rounded-2xl bg-[#141414] border border-[#222] hover:border-[#c5a059]/50 text-[#888] hover:text-[#c5a059] text-[10px] font-semibold uppercase tracking-widest transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
           >
-            <ArrowRightLeft size={13} />
-            <span className="uppercase tracking-widest text-[10px]">Transfer</span>
+            <ArrowRightLeft size={13} className="text-[#c5a059]" />
+            <span>Transfer</span>
           </button>
           <button
             onClick={onOpenAddAccount}
-            className="px-3 py-1.5 rounded-xl bg-[#c5a059]/10 border border-[#c5a059]/40 hover:bg-[#c5a059]/20 text-[#c5a059] text-xs font-semibold uppercase tracking-widest transition-colors flex items-center gap-1"
+            className="w-full py-2 px-3 rounded-2xl bg-[#c5a059]/10 border border-[#c5a059]/40 hover:bg-[#c5a059]/20 text-[#c5a059] text-[10px] font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
           >
             <Plus size={13} />
-            <span className="text-[10px]">+ Add</span>
+            <span>+ Add Account</span>
           </button>
         </div>
       </div>

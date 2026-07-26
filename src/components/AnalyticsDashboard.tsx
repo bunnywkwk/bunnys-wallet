@@ -8,6 +8,7 @@ import {
   Calendar,
   CheckCircle,
   Zap,
+  ChevronDown,
 } from 'lucide-react';
 import {
   BarChart,
@@ -42,16 +43,29 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({
   privacyMode,
   onSelectCategoryFilter,
 }) => {
-  const [timeframe, setTimeframe] = useState<'month' | 'all'>('month');
-
-  // Filter transactions by timeframe
   const now = new Date();
+  const [selectedMonthKey, setSelectedMonthKey] = useState<string>('current');
+
+  // Build past 12 months for selector dropdown
+  const monthOptions: { value: string; label: string }[] = [];
+  for (let i = 0; i < 12; i++) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    const label = d.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+    if (i > 0) {
+      monthOptions.push({ value: key, label });
+    }
+  }
+
+  // Filter transactions by selected month
   const filteredTransactions = transactions.filter((t) => {
-    if (timeframe === 'month') {
-      const txDate = new Date(t.timestamp);
+    if (selectedMonthKey === 'all') return true;
+    const txDate = new Date(t.timestamp);
+    if (selectedMonthKey === 'current') {
       return txDate.getMonth() === now.getMonth() && txDate.getFullYear() === now.getFullYear();
     }
-    return true;
+    const [year, month] = selectedMonthKey.split('-').map(Number);
+    return txDate.getFullYear() === year && txDate.getMonth() + 1 === month;
   });
 
   // Calculate totals
@@ -111,39 +125,39 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({
 
   return (
     <section className="bg-[#111] border border-[#222] rounded-3xl p-6 shadow-2xl space-y-6">
-      {/* Section Title & Filter */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#222] pb-4">
+      {/* Section Title & Interactive Month Filter */}
+      <div className="space-y-3 border-b border-[#222] pb-4">
         <div className="flex items-center gap-2.5">
           <div className="p-2 rounded-xl bg-[#141414] text-[#c5a059] border border-[#c5a059]/30">
             <BarChart3 size={18} />
           </div>
           <div>
-            <h2 className="text-lg font-serif text-[#f2f2f2]">Financial Analytics</h2>
+            <h2 className="text-sm font-serif text-[#f2f2f2] font-semibold">Financial Analytics</h2>
             <p className="text-[10px] uppercase tracking-widest text-[#555]">Expense distribution & cash flow trends</p>
           </div>
         </div>
 
-        <div className="flex bg-[#0a0a0a] p-1 rounded-full border border-[#222]">
-          <button
-            onClick={() => setTimeframe('month')}
-            className={`px-3 py-1 rounded-full text-[10px] uppercase tracking-widest transition-colors ${
-              timeframe === 'month'
-                ? 'bg-[#c5a059]/20 text-[#c5a059] border border-[#c5a059]/40 font-bold'
-                : 'text-[#666] hover:text-[#888]'
-            }`}
+        {/* Full-Width Interactive Month Selector Dropdown */}
+        <div className="relative w-full">
+          <Calendar size={14} className="absolute left-3.5 top-3.5 text-[#c5a059] pointer-events-none" />
+          <select
+            value={selectedMonthKey}
+            onChange={(e) => setSelectedMonthKey(e.target.value)}
+            className="w-full pl-9 pr-9 py-2.5 rounded-2xl bg-[#0a0a0a] border border-[#222] text-xs text-[#f2f2f2] focus:border-[#c5a059] focus:outline-none cursor-pointer appearance-none font-medium shadow-inner"
           >
-            This Month
-          </button>
-          <button
-            onClick={() => setTimeframe('all')}
-            className={`px-3 py-1 rounded-full text-[10px] uppercase tracking-widest transition-colors ${
-              timeframe === 'all'
-                ? 'bg-[#c5a059]/20 text-[#c5a059] border border-[#c5a059]/40 font-bold'
-                : 'text-[#666] hover:text-[#888]'
-            }`}
-          >
-            All Time
-          </button>
+            <option value="current" className="bg-[#141414]">
+              This Month ({now.toLocaleString('en-US', { month: 'long', year: 'numeric' })})
+            </option>
+            {monthOptions.map((m) => (
+              <option key={m.value} value={m.value} className="bg-[#141414]">
+                {m.label}
+              </option>
+            ))}
+            <option value="all" className="bg-[#141414]">
+              All Time History
+            </option>
+          </select>
+          <ChevronDown size={14} className="absolute right-3.5 top-3.5 text-[#666] pointer-events-none" />
         </div>
       </div>
 

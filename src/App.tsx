@@ -139,19 +139,21 @@ export default function App() {
             )}
 
             {/* Integrated Mobile App Header Bar */}
-            <div className="bg-[#141414] border border-[#222] rounded-2xl p-3 flex items-center justify-between gap-2 shadow-md sticky top-2 z-40">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-xl bg-[#0a0a0a] border border-[#c5a059]/40 flex items-center justify-center text-[#c5a059]">
-                  <Wallet size={16} />
+            <div className="bg-[#141414] border border-[#222] rounded-2xl p-3 flex items-center justify-between gap-3 shadow-md sticky top-2 z-40">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="w-9 h-9 rounded-xl bg-[#0a0a0a] border border-[#c5a059]/40 flex items-center justify-center text-[#c5a059] shrink-0 shadow-inner">
+                  <Wallet size={18} />
                 </div>
-                <div>
-                  <h1 className="text-sm font-serif text-[#f2f2f2] font-semibold flex items-center gap-1.5">
-                    Bunny's Wallet
-                    <span className="text-[8px] uppercase tracking-wider px-1.5 py-0.2 rounded-full bg-[#c5a059]/10 text-[#c5a059] border border-[#c5a059]/30 font-sans">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-1.5">
+                    <h1 className="text-xs sm:text-sm font-serif text-[#f2f2f2] font-semibold truncate">
+                      Bunny's Wallet
+                    </h1>
+                    <span className="text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-[#c5a059]/10 text-[#c5a059] border border-[#c5a059]/30 font-sans font-bold shrink-0">
                       PHP ₱
                     </span>
-                  </h1>
-                  <span className="text-[9px] uppercase tracking-wider text-emerald-400 flex items-center gap-1 font-mono">
+                  </div>
+                  <span className="text-[9px] uppercase tracking-wider text-emerald-400 flex items-center gap-1 font-mono mt-0.5">
                     <WifiOff size={9} />
                     100% Offline
                   </span>
@@ -159,16 +161,16 @@ export default function App() {
               </div>
 
               {/* Mobile Total Balance & Privacy Toggle */}
-              <div className="flex items-center gap-2 bg-[#0a0a0a] px-2.5 py-1 rounded-xl border border-[#222]">
+              <div className="flex items-center gap-2 bg-[#0a0a0a] px-3 py-1.5 rounded-xl border border-[#222] shrink-0">
                 <div className="text-right">
-                  <span className="text-[8px] uppercase tracking-wider text-[#666] block">Total</span>
-                  <span className="text-xs font-mono font-medium text-[#c5a059]">
-                    {privacyMode ? '•••••' : formatCurrency(totalBalance, currency)}
+                  <span className="text-[8px] uppercase tracking-wider text-[#666] block font-semibold">Total</span>
+                  <span className="text-xs font-mono font-semibold text-[#c5a059]">
+                    {privacyMode ? '••••••••' : formatCurrency(totalBalance, currency)}
                   </span>
                 </div>
                 <button
                   onClick={handleTogglePrivacy}
-                  className="p-1 text-[#888] hover:text-[#f2f2f2] cursor-pointer"
+                  className="p-1 rounded-lg text-[#888] hover:text-[#f2f2f2] hover:bg-[#1a1a1a] transition-colors cursor-pointer"
                   title="Toggle Privacy"
                 >
                   {privacyMode ? <EyeOff size={14} /> : <Eye size={14} />}
@@ -178,7 +180,7 @@ export default function App() {
               {!isRealMobile && (
                 <button
                   onClick={() => setIsMobileFrameView(false)}
-                  className="p-1.5 rounded-lg bg-[#0a0a0a] border border-[#222] text-[#888] hover:text-[#f2f2f2] cursor-pointer"
+                  className="p-1.5 rounded-xl bg-[#0a0a0a] border border-[#222] text-[#888] hover:text-[#f2f2f2] cursor-pointer shrink-0"
                   title="Switch to Desktop View"
                 >
                   <Monitor size={14} />
