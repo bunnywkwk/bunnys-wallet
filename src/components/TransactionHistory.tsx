@@ -127,9 +127,21 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
 
       {/* Chronological List */}
       <div className="space-y-1 max-h-[500px] overflow-y-auto pr-1">
-        {filteredTransactions.length === 0 ? (
+        {transactions.length === 0 ? (
+          <div className="text-center py-10 px-4 space-y-3 bg-[#0a0a0a] rounded-2xl border border-[#222] my-2">
+            <div className="w-12 h-12 mx-auto rounded-full bg-[#141414] border border-[#c5a059]/30 flex items-center justify-center text-[#c5a059]">
+              <Wallet size={22} />
+            </div>
+            <div>
+              <h3 className="text-sm font-serif text-[#f2f2f2] font-semibold">Vault is Clean & Ready</h3>
+              <p className="text-xs text-[#777] mt-1 max-w-xs mx-auto">
+                No transactions recorded yet. Use the <strong>Calc</strong> tab to log your first transaction!
+              </p>
+            </div>
+          </div>
+        ) : filteredTransactions.length === 0 ? (
           <div className="text-center py-12 text-[#555] text-xs italic">
-            No matching transactions found. Try resetting filters or adding new transactions.
+            No matching transactions found. Try resetting filters.
           </div>
         ) : (
           filteredTransactions.map((t) => {

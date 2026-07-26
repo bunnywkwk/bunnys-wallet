@@ -18,6 +18,7 @@ import {
   Monitor,
   RotateCcw,
   ShieldCheck,
+  Trash2,
 } from 'lucide-react';
 import { Account, Category, CurrencyCode, RecurringSubscription, Transaction } from './types';
 import { WalletStorageManager } from './storage/walletStorage';
@@ -41,7 +42,10 @@ export default function App() {
   const [currency] = useState<CurrencyCode>('PHP');
   const [privacyMode, setPrivacyMode] = useState<boolean>(false);
 
-  // View state
+  // Smart screen auto-detection
+  const [isRealMobile, setIsRealMobile] = useState<boolean>(
+    () => typeof window !== 'undefined' && window.innerWidth < 768
+  );
   const [isMobileFrameView, setIsMobileFrameView] = useState<boolean>(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'vault' | 'calc' | 'analytics' | 'history' | 'tools'>('calc');
 
@@ -55,6 +59,15 @@ export default function App() {
   // Filter state
   const [selectedAccountIdFilter, setSelectedAccountIdFilter] = useState<string | null>(null);
   const [selectedCategoryIdFilter, setSelectedCategoryIdFilter] = useState<string | null>(null);
+
+  // Screen resize listener
+  useEffect(() => {
+    const handleResize = () => {
+      setIsRealMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Sync state from storage
   const syncStorage = () => {
@@ -84,10 +97,15 @@ export default function App() {
 
   const totalBalance = accounts.reduce((sum, acc) => sum + acc.balance, 0);
 
+  // Active view decision:
+  // If running on a REAL smartphone screen (<768px), ALWAYS show native full-screen mobile view.
+  // On desktop screens (>=768px), show desktop layout unless user toggled isMobileFrameView.
+  const isMobileActive = isRealMobile || isMobileFrameView;
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] font-sans selection:bg-[#c5a059]/30 selection:text-[#c5a059]">
-      {/* App Header (rendered in full desktop view) */}
-      {!isMobileFrameView && (
+      {/* App Header (rendered on Desktop View) */}
+      {!isMobileActive && (
         <Header
           accounts={accounts}
           currency={currency}
@@ -103,19 +121,27 @@ export default function App() {
       )}
 
       {/* Main Container */}
-      <main className="py-6 px-2 sm:px-6 max-w-7xl mx-auto">
-        {isMobileFrameView ? (
-          /* Mobile Phone Frame Simulator Layout */
-          <div className="max-w-md mx-auto my-2 rounded-[36px] border-[8px] border-[#1f1f1f] bg-[#141414] p-4 shadow-2xl space-y-4 relative">
-            {/* Phone Speaker Notch */}
-            <div className="w-28 h-4 mx-auto rounded-full bg-[#0a0a0a] flex items-center justify-center">
-              <div className="w-10 h-1 rounded-full bg-[#222]" />
-            </div>
+      <main className={isMobileActive ? 'w-full min-h-screen bg-[#0a0a0a] pb-24' : 'py-6 px-2 sm:px-6 max-w-7xl mx-auto'}>
+        {isMobileActive ? (
+          /* Mobile View Container */
+          <div
+            className={
+              isRealMobile
+                ? 'w-full min-h-screen bg-[#0a0a0a] px-3 pt-2 pb-24 space-y-4'
+                : 'max-w-md mx-auto my-2 rounded-[36px] border-[8px] border-[#1f1f1f] bg-[#141414] p-4 shadow-2xl space-y-4 relative'
+            }
+          >
+            {/* Phone Speaker Notch (Desktop Simulator Only) */}
+            {!isRealMobile && (
+              <div className="w-28 h-4 mx-auto rounded-full bg-[#0a0a0a] flex items-center justify-center mb-2">
+                <div className="w-10 h-1 rounded-full bg-[#222]" />
+              </div>
+            )}
 
-            {/* Integrated Mobile App Header Bar inside the shell */}
-            <div className="bg-[#0a0a0a] border border-[#222] rounded-2xl p-3 flex items-center justify-between gap-2 shadow-md">
+            {/* Integrated Mobile App Header Bar */}
+            <div className="bg-[#141414] border border-[#222] rounded-2xl p-3 flex items-center justify-between gap-2 shadow-md sticky top-2 z-40">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-xl bg-[#141414] border border-[#c5a059]/40 flex items-center justify-center text-[#c5a059]">
+                <div className="w-8 h-8 rounded-xl bg-[#0a0a0a] border border-[#c5a059]/40 flex items-center justify-center text-[#c5a059]">
                   <Wallet size={16} />
                 </div>
                 <div>
@@ -133,7 +159,7 @@ export default function App() {
               </div>
 
               {/* Mobile Total Balance & Privacy Toggle */}
-              <div className="flex items-center gap-2 bg-[#141414] px-2.5 py-1 rounded-xl border border-[#222]">
+              <div className="flex items-center gap-2 bg-[#0a0a0a] px-2.5 py-1 rounded-xl border border-[#222]">
                 <div className="text-right">
                   <span className="text-[8px] uppercase tracking-wider text-[#666] block">Total</span>
                   <span className="text-xs font-mono font-medium text-[#c5a059]">
@@ -149,17 +175,19 @@ export default function App() {
                 </button>
               </div>
 
-              <button
-                onClick={() => setIsMobileFrameView(false)}
-                className="p-1.5 rounded-lg bg-[#141414] border border-[#222] text-[#888] hover:text-[#f2f2f2] cursor-pointer"
-                title="Switch to Desktop View"
-              >
-                <Monitor size={14} />
-              </button>
+              {!isRealMobile && (
+                <button
+                  onClick={() => setIsMobileFrameView(false)}
+                  className="p-1.5 rounded-lg bg-[#0a0a0a] border border-[#222] text-[#888] hover:text-[#f2f2f2] cursor-pointer"
+                  title="Switch to Desktop View"
+                >
+                  <Monitor size={14} />
+                </button>
+              )}
             </div>
 
             {/* Tab Body */}
-            <div className="min-h-[580px] pb-16 space-y-4">
+            <div className="min-h-[500px] space-y-4">
               {activeMobileTab === 'vault' && (
                 <TheVault
                   accounts={accounts}
@@ -213,8 +241,8 @@ export default function App() {
               )}
 
               {activeMobileTab === 'tools' && (
-                /* Dedicated Mobile Tools & Management Page */
-                <div className="bg-[#111] border border-[#222] rounded-3xl p-5 space-y-5 shadow-2xl animate-in fade-in duration-200">
+                /* Mobile Tools & Settings Page */
+                <div className="bg-[#111] border border-[#222] rounded-3xl p-4 sm:p-5 space-y-5 shadow-2xl animate-in fade-in duration-200">
                   <div className="border-b border-[#222] pb-3 flex items-center justify-between">
                     <div>
                       <h2 className="text-sm font-serif text-[#f2f2f2] uppercase tracking-wider font-semibold">
@@ -347,8 +375,8 @@ export default function App() {
                     </button>
                   </div>
 
-                  {/* Offline System & Storage Status Box */}
-                  <div className="p-4 rounded-2xl bg-[#0a0a0a] border border-[#222] space-y-2">
+                  {/* Storage Management & Data Control */}
+                  <div className="p-4 rounded-2xl bg-[#0a0a0a] border border-[#222] space-y-3">
                     <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-[#888]">
                       <span className="flex items-center gap-1 text-emerald-400 font-mono font-bold">
                         <WifiOff size={11} />
@@ -372,18 +400,31 @@ export default function App() {
                       </div>
                     </div>
 
-                    <div className="pt-2">
+                    <div className="pt-2 flex flex-col gap-2">
                       <button
                         onClick={() => {
-                          if (confirm('Reset to preset Philippine sample wallet data?')) {
-                            WalletStorageManager.resetToPreset();
+                          if (confirm('Clear all transactions and reset balances for a clean fresh install?')) {
+                            WalletStorageManager.clearAllData();
                             syncStorage();
                           }
                         }}
                         className="w-full py-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500/20 text-[10px] uppercase tracking-widest font-semibold transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                       >
-                        <RotateCcw size={12} />
-                        Reset Philippines Sample Data
+                        <Trash2 size={12} />
+                        Clear All Data (Fresh Start)
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          if (confirm('Load preset Philippine sample wallet data for testing?')) {
+                            WalletStorageManager.resetToPreset();
+                            syncStorage();
+                          }
+                        }}
+                        className="w-full py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 hover:bg-amber-500/20 text-[10px] uppercase tracking-widest font-semibold transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                      >
+                        <Sparkles size={12} />
+                        Load Philippines Sample Data
                       </button>
                     </div>
                   </div>
@@ -391,8 +432,14 @@ export default function App() {
               )}
             </div>
 
-            {/* Mobile Bottom Navigation Bar (5 Integrated Tabs) */}
-            <div className="absolute bottom-3 left-3 right-3 bg-[#0a0a0a]/95 backdrop-blur-md border border-[#222] rounded-2xl p-1.5 flex items-center justify-around z-30 shadow-2xl">
+            {/* Fixed Mobile Bottom Navigation Bar */}
+            <div
+              className={
+                isRealMobile
+                  ? 'fixed bottom-0 left-0 right-0 bg-[#0a0a0a]/95 backdrop-blur-md border-t border-[#222] p-2 flex items-center justify-around z-50 shadow-2xl pb-safe'
+                  : 'absolute bottom-3 left-3 right-3 bg-[#0a0a0a]/95 backdrop-blur-md border border-[#222] rounded-2xl p-1.5 flex items-center justify-around z-30 shadow-2xl'
+              }
+            >
               <button
                 onClick={() => setActiveMobileTab('calc')}
                 className={`flex flex-col items-center gap-0.5 p-2 rounded-xl text-[10px] font-semibold transition-colors cursor-pointer ${
@@ -455,7 +502,7 @@ export default function App() {
             </div>
           </div>
         ) : (
-          /* Responsive Desktop & Tablet Dashboard Grid */
+          /* Desktop Dashboard Grid */
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Left Column (5 Cols): Calculator Input & The Vault */}
             <div className="lg:col-span-5 space-y-6">

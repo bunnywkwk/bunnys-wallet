@@ -126,18 +126,20 @@ export const Header: React.FC<HeaderProps> = ({
             <Database size={15} />
           </button>
 
-          {/* View Mode Toggle: Mobile Frame vs Wide Dashboard */}
-          <button
-            onClick={onToggleMobileFrameView}
-            className={`p-2 rounded-xl border text-xs transition-colors cursor-pointer ${
-              isMobileFrameView
-                ? 'bg-[#c5a059]/20 border-[#c5a059] text-[#c5a059]'
-                : 'bg-[#141414] border-[#222] text-[#888] hover:text-[#e0e0e0]'
-            }`}
-            title={isMobileFrameView ? 'Switch to Full Dashboard' : 'Switch to Mobile Frame'}
-          >
-            {isMobileFrameView ? <Smartphone size={15} /> : <Monitor size={15} />}
-          </button>
+          {/* View Mode Toggle: Mobile Frame vs Wide Dashboard (Desktop Only) */}
+          {typeof window !== 'undefined' && window.innerWidth >= 768 && (
+            <button
+              onClick={onToggleMobileFrameView}
+              className={`p-2 rounded-xl border text-xs transition-colors cursor-pointer ${
+                isMobileFrameView
+                  ? 'bg-[#c5a059]/20 border-[#c5a059] text-[#c5a059]'
+                  : 'bg-[#141414] border-[#222] text-[#888] hover:text-[#e0e0e0]'
+              }`}
+              title={isMobileFrameView ? 'Switch to Full Dashboard' : 'Switch to Mobile Frame'}
+            >
+              {isMobileFrameView ? <Smartphone size={15} /> : <Monitor size={15} />}
+            </button>
+          )}
         </div>
       </div>
     </header>

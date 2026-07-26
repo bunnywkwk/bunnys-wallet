@@ -51,12 +51,12 @@ export class WalletStorageManager {
     try {
       const data = localStorage.getItem(STORAGE_KEYS.TRANSACTIONS);
       if (!data) {
-        this.saveTransactions(SAMPLE_PRESET_TRANSACTIONS);
-        return SAMPLE_PRESET_TRANSACTIONS;
+        this.saveTransactions([]);
+        return [];
       }
       return JSON.parse(data);
     } catch {
-      return SAMPLE_PRESET_TRANSACTIONS;
+      return [];
     }
   }
 
@@ -69,12 +69,12 @@ export class WalletStorageManager {
     try {
       const data = localStorage.getItem(STORAGE_KEYS.RECURRING);
       if (!data) {
-        this.saveRecurring(DEFAULT_RECURRING);
-        return DEFAULT_RECURRING;
+        this.saveRecurring([]);
+        return [];
       }
       return JSON.parse(data);
     } catch {
-      return DEFAULT_RECURRING;
+      return [];
     }
   }
 
@@ -223,7 +223,19 @@ export class WalletStorageManager {
   }
 
   /**
-   * Reset data to fresh preset state
+   * Clear all transactions and reset account balances to 0 for a clean empty start
+   */
+  static clearAllData() {
+    const cleanAccounts = DEFAULT_ACCOUNTS.map((acc) => ({ ...acc, balance: 0, initialBalance: 0 }));
+    this.saveAccounts(cleanAccounts);
+    this.saveCategories(DEFAULT_CATEGORIES);
+    this.saveTransactions([]);
+    this.saveRecurring([]);
+    this.setCurrency('PHP');
+  }
+
+  /**
+   * Load Philippines sample preset data for testing
    */
   static resetToPreset() {
     this.saveAccounts(DEFAULT_ACCOUNTS);
